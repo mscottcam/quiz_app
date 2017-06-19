@@ -12,13 +12,19 @@
   // final score variable
 
 const appState = {
-  views: ['intro'],//maybe object for question? result
-  question: 1,//array of objects
+  views: ['intro', 'question', 'result', 'end'],//maybe object for question? result
+  questions: [
+    {question: ,
+      choices: [choice1, choice2, choice3],
+      answer: choices[]},
+    {question: ,
+      choices: [choice1, choice2, choice3]},
+      answer: choices[]},
+  ],
   score: 0, //user's score
   currentQuestion: 0,//index number of question
-  // a correct result maybe?: true or false
+  correct: true or false
 }
-
 
 
 
