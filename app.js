@@ -12,7 +12,14 @@
   // final score variable
 
 const appState = {
-  views: ['intro', 'question', 'result', 'end'],//maybe object for question? result
+  views:
+  {
+    intro: true,
+    question: false,
+    result: false,
+    end: false
+    },
+
   questions: [
     {question: 'this is question 1?',
       choices: ["choice1", "choice2", "choice3"],
@@ -21,7 +28,7 @@ const appState = {
       }}
       console.log
     {question: 
-      choices: [choice1, choice2, choice3]},
+      choices: ['choice1', 'choice2', 'choice3']},
       answer: choices[]},
   ]
   score: 0, //user's score
@@ -41,13 +48,25 @@ const appState = {
 // write render function
 
 function rendersItems(state, element) {
-
-
+  if(state.intro === true) {
+  generateIntro(element);
+  } 
 }
 
   //view toggle
     // question render fn
     // final page render
+  function generateIntro(state, element) {
+    $('.questions').addClass('hidden');
+    $('.results').addClass('hidden');
+    $('.end').addClass('hidden');
+  }
+
+  function generateQuestions(state, element) {
+    $('.intro').addClass('hidden');
+    $('.questions').toggleClass('hidden');
+    state.views.
+  }
 
 
 
@@ -55,6 +74,11 @@ function rendersItems(state, element) {
 
   // intro views
     //start button click
+$('.start-button').on('click', function() {
+
+});
+
+
 
   //questions
     //submit button
@@ -69,11 +93,13 @@ function rendersItems(state, element) {
 
 
 $(document).ready(function() {
-  // rendersItems(appState, $('.quiz'));
+  rendersItems(appState, $('.intro'));
 
-  let questionCopy = $('.questions').clone()
-  questionCopy.find('legend').text('It works')
-  $('body').append(questionCopy);
+
+
+  // let questionCopy = $('.questions').clone()
+  // questionCopy.find('legend').text('It works');
+  // $('body').append(questionCopy);
 
 
 });
