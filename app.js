@@ -14,13 +14,16 @@
 const appState = {
   views: ['intro', 'question', 'result', 'end'],//maybe object for question? result
   questions: [
-    {question: ,
-      choices: [choice1, choice2, choice3],
-      answer: choices[]},
-    {question: ,
+    {question: 'this is question 1?',
+      choices: ["choice1", "choice2", "choice3"],
+      answer: this.choices[1]
+
+      }}
+      console.log
+    {question: 
       choices: [choice1, choice2, choice3]},
       answer: choices[]},
-  ],
+  ]
   score: 0, //user's score
   currentQuestion: 0,//index number of question
   correct: true or false
@@ -38,13 +41,7 @@ const appState = {
 // write render function
 
 function rendersItems(state, element) {
-  let introView = state.views.map(function(view) {
-    return (`
-      <h1>test</h1>
-      `)
-  });
-  console.log(introView);
-  element.html(introView);
+
 
 }
 
@@ -63,14 +60,20 @@ function rendersItems(state, element) {
     //submit button
     //next button
     //radio selector click
+  $('.start').on('click', function(event) {
+
+  })
 
   // results page
     //restart click
 
 
 $(document).ready(function() {
-  rendersItems(appState, $('.quiz'));
+  // rendersItems(appState, $('.quiz'));
 
+  let questionCopy = $('.questions').clone()
+  questionCopy.find('legend').text('It works')
+  $('body').append(questionCopy);
 
 
 });
