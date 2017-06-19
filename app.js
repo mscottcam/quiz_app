@@ -1,10 +1,3 @@
-const appState = {
-  //view: initial state of intro page
-
-  // correct?: true or false
-}
-
-
 // make html skeleton
 // design state
 
@@ -18,6 +11,16 @@ const appState = {
 
   // final score variable
 
+const appState = {
+  views: ['intro'],//maybe object for question? result
+  question: 1,//array of objects
+  score: 0, //user's score
+  currentQuestion: 0,//index number of question
+  // a correct result maybe?: true or false
+}
+
+
+
 
 // write state mod functions
 
@@ -27,6 +30,17 @@ const appState = {
 
 
 // write render function
+
+function rendersItems(state, element) {
+  let introView = state.views.map(function(view) {
+    return (`
+      <h1>test</h1>
+      `)
+  });
+  console.log(introView);
+  element.html(introView);
+
+}
 
   //view toggle
     // question render fn
@@ -46,3 +60,11 @@ const appState = {
 
   // results page
     //restart click
+
+
+$(document).ready(function() {
+  rendersItems(appState, $('.quiz'));
+
+
+
+});
