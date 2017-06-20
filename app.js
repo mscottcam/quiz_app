@@ -21,26 +21,42 @@ const appState = {
     },
 
   questions: [
-    {question: 'this is question 1?',
-      choices: ["choice1", "choice2", "choice3"],
-      answer: this.choices[1]
-
-      }}
-      console.log
-    {question: 
-      choices: ['choice1', 'choice2', 'choice3']},
-      answer: choices[]},
+    {question1: 'this is question 1?',
+      choices: ['choice1', 'choice2', 'choice3', 'choice4'],
+      answer: 1
+    },
+      // console.log
+    {question2: 'this is question 2?',
+      choices: ['choice1', 'choice2', 'choice3', 'choice4'],
+      answer: 0
+    },
+    {question3: 'this is question 3?',
+      choices: ['choice1', 'choice2', 'choice3', 'choice4'],
+      answer: 2
+    },
+    {question4: 'this is question 4?',
+      choices: ['choice1', 'choice2', 'choice3', 'choice4'],
+      answer: 3
+    },
   ]
-  score: 0, //user's score
-  currentQuestion: 0,//index number of question
-  correct: true or false
-}
+  // score: 0, //user's score
+  // currentQuestion: 0,//index number of question
+  // correct: true or false
+};
 
 
 
 // write state mod functions
 
   // changeView function
+  function viewQuestions(state, item) {
+    if (state.views.intro === true) {
+      return state.views.intro = false;
+    }
+    if (state.views.item === false) {
+      return state.views.item = true;
+    }
+  }
 
   // correct or not function
 
@@ -48,35 +64,88 @@ const appState = {
 // write render function
 
 function rendersItems(state, element) {
-  if(state.intro === true) {
-  generateIntro(element);
-  } 
+  if(state.views.intro === true) {
+  generateIntro(state, element);
+  }
+  else if(state.question === true) {
+    generateQuestions(state, element);
+  } else {
+    generateResults(state, element);
+  }
 }
 
   //view toggle
     // question render fn
     // final page render
   function generateIntro(state, element) {
+    element.html(`<h1>Quiz</h1>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+    <button type="button" class="start-button">Start</button>`);
     $('.questions').addClass('hidden');
     $('.results').addClass('hidden');
     $('.end').addClass('hidden');
+    so
   }
 
   function generateQuestions(state, element) {
+    element.html(`<form action="/endpoint">
+      <fieldset>
+        <legend>Question</legend>
+        <p>${state.questions[0]}</p>
+        <input type="radio" name="choice" id="choice0">
+        <label for="choice0">${state.questions[0].choices[0]}</label>
+        <input type="radio" name="choice" id="choice1">
+        <label for="choice1">${state.questions[0].choices[1]}</label>
+        <input type="radio" name="choice" id="choice2">
+        <label for="choice2">${state.questions[0].choices[2]}</label>
+        <input type="radio" name="choice" id="choice3">
+        <label for="choice3">${state.questions[0].choices[3]}</label>
+      </fieldset>
+      <button type="submit">Submit</button>
+    </form>`);
     $('.intro').addClass('hidden');
     $('.questions').toggleClass('hidden');
-    state.views.
+    // state.views.
   }
+
+  function generateResults(state, element) {
+    // element.html('template')
+       let correctAnswer = function(state) {
+         if (answer === choices[i]) {
+            return true
+          } else {
+            return false
+          };
+
+        return function(correctAnswer, element) {
+          if (correctAnswer === true) {
+            // display 'correct!'
+          }
+        }
+    }
+  };
+
 
 
 
 // write event listeners
+submitsForm() {
+  $('.start-button').on('click', function(event) {
+    alert('this works');
+    event.preventDefault();
+    viewQuestions(appState, question);
+    generateQuestions(appState, $('.questions'));
+  });
 
+
+}
   // intro views
-    //start button click
-$('.start-button').on('click', function() {
-
-});
+    // start button click
+// $('.start-button').on('click', function(event) {
+//   event.preventDefault();
+//   generateQuestions(appState, $('.questions'));
+//   alert('this works');
+// });
 
 
 
@@ -84,9 +153,9 @@ $('.start-button').on('click', function() {
     //submit button
     //next button
     //radio selector click
-  $('.start').on('click', function(event) {
-
-  })
+  // $('.start').on('click', function(event) {
+  //
+  // });
 
   // results page
     //restart click
@@ -94,12 +163,10 @@ $('.start-button').on('click', function() {
 
 $(document).ready(function() {
   rendersItems(appState, $('.intro'));
-
+  submitsForm();
+});
 
 
   // let questionCopy = $('.questions').clone()
   // questionCopy.find('legend').text('It works');
   // $('body').append(questionCopy);
-
-
-});
