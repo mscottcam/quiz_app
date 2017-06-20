@@ -12,7 +12,7 @@
   // final score variable
 
 
-//                                                                 STEP ONE --- DESIGN STATE 
+//                                                                 STEP ONE --- DESIGN STATE
 const appState = {
   views:
   {
@@ -61,7 +61,7 @@ const appState = {
       state.views.question = true;
       console.log('the intro is ' + state.views.intro);
       console.log('the question is ' + state.views.question);
-      rendersItems(appState, $('.questions'));
+      rendersItems(appState, $('.question-form'));
     //renderFunction
   }
 
@@ -97,8 +97,8 @@ function rendersItems(state, element) {
 
 //look at p tag to make sure it increments
   function generateQuestions(state, element) {
-    element.html(`<form action="/endpoint" class="question">
-      <fieldset>
+     element.html(`
+      <fieldset class="question">
         <legend>Question</legend>
         <p>${state.questions[0].question1}</p>
         <input type="radio" name="choice" id="choice0">
@@ -111,15 +111,7 @@ function rendersItems(state, element) {
         <label for="choice3">${state.questions[0].choices[3]}</label>
       </fieldset>
       <button type="submit">Submit</button>
-
-    </form>`);
-
-    $('form.question').on('submit', function(event) {
-      event.preventDefault();
-      console.log('form question worked!');
-      state.views.result = true;
-      $('.results').removeClass('hidden');
-    });
+      `);
 
     $('.intro').addClass('hidden');
     $('.questions').removeClass('hidden');
@@ -152,8 +144,8 @@ function rendersItems(state, element) {
 
 
 
-//                                                              STEP FOUR  --- EVENT LISTENERS
-//                                                    when specific event is activated goes to state mod in (step two)
+//              STEP FOUR  --- EVENT LISTENERS
+//             when specific event is activated goes to state mod in (step two)
 
 
 function submitsForm() {
@@ -166,8 +158,19 @@ function submitsForm() {
     // generateQuestions(appState, $('.questions'));
   });
 
+// question submit button
+  $('form.question-form').on('submit', function(event) {
+    event.preventDefault();
+    console.log('form question worked!');
+    appState.views.result = true;
+    $('.results').removeClass('hidden');
+  });
 
-
+  // go to next question button click
+  $('.results button').click(function() {
+    console.log('results was clicked');
+    //hide results and show next question
+  });
 
 }
   // intro views
@@ -196,11 +199,7 @@ function submitsForm() {
 $(document).ready(function() {
   rendersItems(appState, $('.intro'));
   submitsForm();
-  $('.results button').click(function() {
-    console.log('results was clicked');
-    //hide results and show next question
-    
-  });
+
 });
 
 

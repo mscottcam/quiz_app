@@ -1,0 +1,6 @@
+- iterate through the questions
+- display final results page
+  - restart quiz button
+- increment score
+- increment current questions
+- correct answers function and display
