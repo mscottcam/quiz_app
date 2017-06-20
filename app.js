@@ -52,13 +52,17 @@ const appState = {
 //                                    altered by user action. changes the state (step one) and calls render functions (step three)
 
   // changeView function
-  function viewQuestions(state, item) {
-    if (state.views.intro === true) {
-      return state.views.intro = false;
-    }
-    if (state.views.item === false) {
-      return state.views.item = true;
-    }
+  function viewQuestions(state) {
+    // function changeState() {
+
+    // }
+    //   return state.views.intro = false;
+      state.views.intro = false;
+      state.views.question = true;
+      console.log('the intro is ' + state.views.intro);
+      console.log('the question is ' + state.views.question);
+      rendersItems(appState, $('.questions'));
+    //renderFunction
   }
 
   // correct or not function
@@ -71,11 +75,12 @@ function rendersItems(state, element) {
   if(state.views.intro === true) {
   generateIntro(state, element);
   }
-  else if(state.question === true) {
+  else if(state.views.question === true) {
     generateQuestions(state, element);
   } else {
     generateResults(state, element);
   }
+  //element.html(generateQuestions(state));
 }
 
   //view toggle
@@ -88,14 +93,14 @@ function rendersItems(state, element) {
     $('.questions').addClass('hidden');
     $('.results').addClass('hidden');
     $('.end').addClass('hidden');
-    so
   }
 
+//look at p tag to make sure it increments
   function generateQuestions(state, element) {
-    element.html(`<form action="/endpoint">
+    element.html(`<form action="/endpoint" class="question">
       <fieldset>
         <legend>Question</legend>
-        <p>${state.questions[0]}</p>
+        <p>${state.questions[0].question1}</p>
         <input type="radio" name="choice" id="choice0">
         <label for="choice0">${state.questions[0].choices[0]}</label>
         <input type="radio" name="choice" id="choice1">
@@ -106,14 +111,29 @@ function rendersItems(state, element) {
         <label for="choice3">${state.questions[0].choices[3]}</label>
       </fieldset>
       <button type="submit">Submit</button>
+
     </form>`);
+
+    $('form.question').on('submit', function(event) {
+      event.preventDefault();
+      console.log('form question worked!');
+      state.views.result = true;
+      $('.results').removeClass('hidden');
+    });
+
     $('.intro').addClass('hidden');
-    $('.questions').toggleClass('hidden');
+    $('.questions').removeClass('hidden');
+
     // state.views.
   }
 
   function generateResults(state, element) {
     // element.html('template')
+
+
+
+
+
        let correctAnswer = function(state) {
          if (answer === choices[i]) {
             return true
@@ -138,11 +158,17 @@ function rendersItems(state, element) {
 
 function submitsForm() {
   $('.start-button').on('click', function(event) {
-    alert('this works');
+    //alert('this works');
+    console.log(appState.views.question);
+    viewQuestions(appState);
     // event.preventDefault();
     // viewQuestions(appState, question);
     // generateQuestions(appState, $('.questions'));
   });
+
+
+
+
 }
   // intro views
     // start button click
@@ -170,6 +196,11 @@ function submitsForm() {
 $(document).ready(function() {
   rendersItems(appState, $('.intro'));
   submitsForm();
+  $('.results button').click(function() {
+    console.log('results was clicked');
+    //hide results and show next question
+    
+  });
 });
 
 
