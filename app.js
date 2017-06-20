@@ -21,25 +21,25 @@ const appState = {
     result: false,
     end: false
     },
-
+  currentQuestionIndex: 0,
   questions: [
-    {question1: 'this is question 1?',
+    {text: 'this is question 1?',
       choices: ['choice1', 'choice2', 'choice3', 'choice4'],
       answer: 1
     },
-      // console.log
-    {question2: 'this is question 2?',
+    {text: 'this is question 2?',
       choices: ['choice1', 'choice2', 'choice3', 'choice4'],
       answer: 0
     },
-    {question3: 'this is question 3?',
+    {text: 'this is question 3?',
       choices: ['choice1', 'choice2', 'choice3', 'choice4'],
       answer: 2
     },
-    {question4: 'this is question 4?',
+    {text: 'this is question 4?',
       choices: ['choice1', 'choice2', 'choice3', 'choice4'],
       answer: 3
     },
+
   ]
   // score: 0, //user's score
   // currentQuestion: 0,//index number of question
@@ -59,26 +59,47 @@ const appState = {
     //   return state.views.intro = false;
       state.views.intro = false;
       state.views.question = true;
-      console.log('the intro is ' + state.views.intro);
-      console.log('the question is ' + state.views.question);
+      //console.log('the intro is ' + state.views.intro);
+      //console.log('the question is ' + state.views.question);
       rendersItems(appState, $('.question-form'));
     //renderFunction
   }
 
-  // correct or not function
+  function viewEnd(state) {
+    //update state
+    state.views.question = false;
+    state.views.result = false;
+    state.views.end = true;
 
+
+    //render
+    rendersItems(appState, $('.end'));
+  }
+
+
+  // correct or not function
+function answerQuestion(state, answer) {
+  //console.log('answerQuestions worked');
+}
 
 //                                                        STEP THREE ------ RENDER FUNCTIONS
 //                                              renders the initial state (step one) and subsequent states
 
 function rendersItems(state, element) {
   if(state.views.intro === true) {
+
   generateIntro(state, element);
   }
   else if(state.views.question === true) {
+    $('.intro').addClass('hidden');
+    $('.questions').removeClass('hidden');
     generateQuestions(state, element);
-  } else {
+  } else if(state.views.result === true) {
+    $('.questions').addClass('hidden');
+    $('.results').removeClass('hidden');
     generateResults(state, element);
+  } else {
+    generateEnd(state, element);
   }
   //element.html(generateQuestions(state));
 }
@@ -97,34 +118,50 @@ function rendersItems(state, element) {
 
 //look at p tag to make sure it increments
   function generateQuestions(state, element) {
-     element.html(`
-      <fieldset class="question">
+      //turns off next question button at end of questions
+      let currentIndex = appState.currentQuestionIndex;
+      currentIndex = parseInt(currentIndex, 10);
+      if(currentIndex === appState.questions.length-1) {
+      //turns on see how i did button and turns off next question
+      $('.end-button').removeClass('hidden');
+      $('.results-button').addClass('hidden');
+      };
+
+
+      let currentQuestion = state.questions[state.currentQuestionIndex].text;
+      let currentChoices = state.questions[state.currentQuestionIndex].choices;
+      let questionText = (`
+        <fieldset class="question">
         <legend>Question</legend>
-        <p>${state.questions[0].question1}</p>
+        <p>${currentQuestion}</p>
         <input type="radio" name="choice" id="choice0">
-        <label for="choice0">${state.questions[0].choices[0]}</label>
+        <label for="choice0">${currentChoices[0]}</label>
         <input type="radio" name="choice" id="choice1">
-        <label for="choice1">${state.questions[0].choices[1]}</label>
+        <label for="choice1">${currentChoices[1]}</label>
         <input type="radio" name="choice" id="choice2">
-        <label for="choice2">${state.questions[0].choices[2]}</label>
+        <label for="choice2">${currentChoices[2]}</label>
         <input type="radio" name="choice" id="choice3">
-        <label for="choice3">${state.questions[0].choices[3]}</label>
+        <label for="choice3">${currentChoices[3]}</label>
       </fieldset>
       <button type="submit">Submit</button>
-      `);
+        `)
+      element.html(questionText);
 
-    $('.intro').addClass('hidden');
-    $('.questions').removeClass('hidden');
+      
 
-    // state.views.
+      // function loopQuestions(state, currentQuestion, currentChoices, questionText) {
+        
+      //   for(let i = 0; i < state.questions.length; i++) {
+      //     console.log(questionText);
+      //   }
+      // }
+      //loopQuestions(state, currentQuestion, currentChoices, questionText);
+    // $('.intro').addClass('hidden');
+    // $('.questions').removeClass('hidden');
   }
 
   function generateResults(state, element) {
     // element.html('template')
-
-
-
-
 
        let correctAnswer = function(state) {
          if (answer === choices[i]) {
@@ -141,6 +178,16 @@ function rendersItems(state, element) {
     }
   };
 
+  function generateEnd(state, element) {
+    element.html(`
+      <h1>Final result</h1>
+      <button class="start-over" type="submit">Start over</button>
+      `);
+    $('.questions').addClass('hidden');
+    $('.results').addClass('hidden');
+    $('.end').removeClass('hidden');
+  }
+
 
 
 
@@ -148,10 +195,11 @@ function rendersItems(state, element) {
 //             when specific event is activated goes to state mod in (step two)
 
 
-function submitsForm() {
+function submitsForm(x) {
+  //start button
   $('.start-button').on('click', function(event) {
     //alert('this works');
-    console.log(appState.views.question);
+    //console.log(appState.views.question);
     viewQuestions(appState);
     // event.preventDefault();
     // viewQuestions(appState, question);
@@ -161,15 +209,36 @@ function submitsForm() {
 // question submit button
   $('form.question-form').on('submit', function(event) {
     event.preventDefault();
-    console.log('form question worked!');
+    
+    let answer = $("input[id='']:checked").val();
+
     appState.views.result = true;
     $('.results').removeClass('hidden');
+    answerQuestion(appState, answer);//what is answer?
+    //re render
   });
 
+
   // go to next question button click
-  $('.results button').click(function() {
-    console.log('results was clicked');
-    //hide results and show next question
+  $('.results-button').click(function() {
+    appState.currentQuestionIndex += 1;
+    $('.results').addClass('hidden');
+    rendersItems(appState, $('.question-form'));
+
+    //
+  });
+
+  //button to go to final results from last question
+  $('.end-button').click(function() {
+    viewEnd(appState);
+  });
+
+  //restart button on final page
+  console.log(x);
+  
+  $('.end').on('click', '.start-over', function(event) {
+    console.log('you reached the end button');
+    
   });
 
 }
@@ -198,7 +267,7 @@ function submitsForm() {
 
 $(document).ready(function() {
   rendersItems(appState, $('.intro'));
-  submitsForm();
+  submitsForm('test string');
 
 });
 
