@@ -11,6 +11,8 @@
 
   // final score variable
 
+
+//                                                                 STEP ONE --- DESIGN STATE 
 const appState = {
   views:
   {
@@ -46,7 +48,8 @@ const appState = {
 
 
 
-// write state mod functions
+//                                                      STEP TWO --- STATE MOD FUNCTIONS
+//                                    altered by user action. changes the state (step one) and calls render functions (step three)
 
   // changeView function
   function viewQuestions(state, item) {
@@ -61,7 +64,8 @@ const appState = {
   // correct or not function
 
 
-// write render function
+//                                                        STEP THREE ------ RENDER FUNCTIONS
+//                                              renders the initial state (step one) and subsequent states
 
 function rendersItems(state, element) {
   if(state.views.intro === true) {
@@ -128,16 +132,17 @@ function rendersItems(state, element) {
 
 
 
-// write event listeners
-submitsForm() {
+//                                                              STEP FOUR  --- EVENT LISTENERS
+//                                                    when specific event is activated goes to state mod in (step two)
+
+
+function submitsForm() {
   $('.start-button').on('click', function(event) {
     alert('this works');
-    event.preventDefault();
-    viewQuestions(appState, question);
-    generateQuestions(appState, $('.questions'));
+    // event.preventDefault();
+    // viewQuestions(appState, question);
+    // generateQuestions(appState, $('.questions'));
   });
-
-
 }
   // intro views
     // start button click
@@ -159,7 +164,8 @@ submitsForm() {
 
   // results page
     //restart click
-
+//                                                                  STEP FIVE --- THE DOM
+//                                               runs render item functions (step three) and places function to listen for events(step four)
 
 $(document).ready(function() {
   rendersItems(appState, $('.intro'));
